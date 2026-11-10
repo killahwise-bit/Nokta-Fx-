@@ -1,0 +1,29 @@
+name: Build Nokta-Fx (Windows VST3)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Compilar
+        run: cmake --build build --config Release
+
+      - name: Subir VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nokta-Fx-VST3
+          path: build/NoktFx_artefacts/Release/VST3/
+
+      - name: Subir Standalone
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nokta-Fx-Standalone
+          path: build/NoktFx_artefacts/Release/Standalone/
